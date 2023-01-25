@@ -1,4 +1,5 @@
 using Api.Entities;
+using Api.Payloads;
 
 using FastReport.Export.PdfSimple;
 using FastReport.Web;
@@ -77,6 +78,33 @@ namespace FastReport.Controllers
             webReport.Report.RegisterData(labels, "data");
 
             //Prepare report
+            webReport.Report.Prepare();
+
+            using MemoryStream stream = new();
+            webReport.Report.Export(new PDFSimpleExport(), stream);
+            stream.Flush();
+            return File(stream.ToArray(), "application/pdf", "report.pdf");
+        }
+
+        [HttpGet]
+        [Route("report/simple/custom-margins")]
+        public ActionResult GetCustomMargins([FromQuery] CustomMarginPayload payload)
+        {
+            //Create report
+            WebReport webReport = new();
+            string reportPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot/reports", "ProductList.frx");
+            webReport.Report.Load(reportPath);
+            webReport.Report.Dictionary.RegisterBusinessObject(labels, "data", 0, true);
+            webReport.Report.RegisterData(labels, "data");
+
+            foreach (ReportPage page in webReport.Report.Pages)
+            {
+                page.TopMargin = payload.TopMilimiters.GetValueOrDefault();
+                page.BottomMargin = payload.TopMilimiters.GetValueOrDefault();
+                page.LeftMargin = payload.LeftMilimiters.GetValueOrDefault();
+                page.RightMargin = payload.RightMilimiters.GetValueOrDefault();
+            }
+
             webReport.Report.Prepare();
 
             using MemoryStream stream = new();
