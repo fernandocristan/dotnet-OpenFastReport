@@ -7,8 +7,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//FastReport.Utils.RegisteredObjects.AddConnection(typeof(PostgresDataConnection));
-
 WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
