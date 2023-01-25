@@ -1,5 +1,3 @@
-using FastReport.Data;
-
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,7 +7,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-FastReport.Utils.RegisteredObjects.AddConnection(typeof(PostgresDataConnection));
+//FastReport.Utils.RegisteredObjects.AddConnection(typeof(PostgresDataConnection));
 
 WebApplication app = builder.Build();
 
