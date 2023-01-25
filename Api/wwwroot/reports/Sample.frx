@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/25/2023 10:18:55" ReportInfo.Modified="01/25/2023 10:18:55" ReportInfo.CreatorVersion="2023.1.9.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="data" ReferenceName="data" DataType="System.Collections.Generic.List`1[[Api.Entities.Label, Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]" Enabled="true">
+      <Column Name="Description" DataType="System.String"/>
+      <Column Name="EAN13" DataType="System.String"/>
+      <Column Name="Price" DataType="System.Decimal"/>
+      <Column Name="Reference" DataType="System.String"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+</Report>

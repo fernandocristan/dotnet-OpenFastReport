@@ -1,5 +1,3 @@
-using System.Data;
-
 using Api.Entities;
 
 using FastReport.Export.PdfSimple;
@@ -18,7 +16,7 @@ namespace FastReport.Controllers
             new Label
             {
                 Description = "Óculos Prada Eyewear Collection",
-                EAN13 = "7896541236950",
+                EAN13 = "0106947719224",
                 Price = 2356.5m,
                 Reference = "7Q98DD"
             },
@@ -43,35 +41,6 @@ namespace FastReport.Controllers
                 Price = 3500,
                 Reference = "AVD3-FGA"
             },
-
-            new Label
-            {
-                Description = "Óculos Prada Eyewear Collection",
-                EAN13 = "7896541236950",
-                Price = 2356.5m,
-                Reference = "7Q98DD"
-            },
-            new Label
-            {
-                Description = "Óculos de Sol CARTIER 0229S 002",
-                EAN13 = "7890003269871",
-                Price = 1999.5m,
-                Reference = "13698742556"
-            },
-            new Label
-            {
-                Description = "Óculos de sol GUCCI preto injetado",
-                EAN13 = "7890006895423",
-                Price = 2379,
-                Reference = "GG0810S-001 53"
-            },
-            new Label
-            {
-                Description = "Metal frame 02 sunglasses in metal with mineral glass lenses gold/green",
-                EAN13 = "7896016541236",
-                Price = 3500,
-                Reference = "AVD3-FGA"
-            }
         };
 
         private readonly IWebHostEnvironment webHostEnvironment;
@@ -82,6 +51,20 @@ namespace FastReport.Controllers
             this.webHostEnvironment = webHostEnvironment;
         }
 
+        [HttpPost]
+        [Route("report/sample")]
+        public ActionResult CreateReport()
+        {
+            //Create report
+            WebReport webReport = new();
+            string reportPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot/reports", "Sample.frx");
+
+            webReport.Report.Dictionary.RegisterBusinessObject(labels, "data", 10, true);
+            webReport.Report.Save(reportPath);
+
+            return Ok($"save in {reportPath}");
+        }
+
         [HttpGet]
         [Route("report/simple")]
         public ActionResult Get()
@@ -90,19 +73,8 @@ namespace FastReport.Controllers
             WebReport webReport = new();
             string reportPath = Path.Combine(webHostEnvironment.ContentRootPath, "wwwroot/reports", "ProductList.frx");
             webReport.Report.Load(reportPath);
-
-            //Prepare data
-            DataTable dataTable = new();
-            dataTable.Columns.Add("Description", typeof(string));
-            dataTable.Columns.Add("EAN13", typeof(string));
-            dataTable.Columns.Add("Price", typeof(decimal));
-            dataTable.Columns.Add("Reference", typeof(string));
-
-            foreach (Label label in labels)
-            {
-                dataTable.Rows.Add(label);
-            }
-            webReport.Report.RegisterData(dataTable, "products");
+            webReport.Report.Dictionary.RegisterBusinessObject(labels, "data", 0, true);
+            webReport.Report.RegisterData(labels, "data");
 
             //Prepare report
             webReport.Report.Prepare();
@@ -110,8 +82,7 @@ namespace FastReport.Controllers
             using MemoryStream stream = new();
             webReport.Report.Export(new PDFSimpleExport(), stream);
             stream.Flush();
-            byte[] arrayReport = stream.ToArray();
-            return File(arrayReport, "application/pdf", "report.pdf");
+            return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
         [HttpGet]
