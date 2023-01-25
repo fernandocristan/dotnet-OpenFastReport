@@ -1,6 +1,6 @@
 ﻿namespace Api.Payloads
 {
-    public class CustomMarginPayload
+    public class CustomMarginsPayload
     {
         public int? BottomMilimiters { get; set; }
         public int? LeftMilimiters { get; set; }
