@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="01/25/2023 10:18:55" ReportInfo.Modified="01/25/2023 11:34:10" ReportInfo.CreatorVersion="2023.1.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/25/2023 10:18:55" ReportInfo.Modified="01/25/2023 11:58:18" ReportInfo.CreatorVersion="2023.1.0.0">
   <Dictionary>
-    <JsonDataSourceConnection Name="Json example data" ConnectionString="rijcmlq8Sm46cpgh5Eu8vZd/IKSPzLDjp6qi3fjZ9yIwFwuMunBw/S/m2C7nUtYtFY1yVZLLx6iz9ND/95Pn75ncO27bCRX76I9X7s99tTBtlJlXvnBQP9EnKKIG2IkluJ+st74oBFwlzDTmaWljvkLBCyEgZ/Wgrf9s0Z0RpJVx+IIedrTg1aNxbiIamMArbSW4syWowL62z2Ter3SFPYIUwxB2eOzhyPoKxcDt6QNOzdiaFXpDhXgHOIwPdOknKLT4ecvJBD8mwevfPEjsR/PkQk83QBkJYeDek2BPUMiOtEr2uNtN7fWDvXe0x6BWHijqs9+6tEb6lal6UkEl90DXHF20UkBREbST/30dimG0PiCz3kApvqpyapSFdYWT62zsgzjhiMCxmsShkrFlJ+P5QklI2G2tsFQ/rGApZOJnhVguilpPCcTDptSMIbGzK6hVT6jlMeCW2yVTfKfaAj/pdVaG9RlUz+8bquWOQIH75/zlJG2zYWCnytjCHDeWlg2gtnIML72WtX4Emb53t0C1HsqVNZp+uAPV5kJKuqjsprMntF2dx/d4n8ojmDvqPUyASZLpi5v74ekWmQkZMPbYlrIizktm4yml+qZ/DfR7Szs/3uc+nMi9i/ROqOzzujQrj17CVxMoEkPn9NtTL9pbnDt3rQelgqqLxky/ycsQAwa/m5txqxAge4qisUkS7U//idzSCirvnoPTuqRckulwVm5JiHgSZQhnu13YJKW99h70WTaeN0RPFlr/vvvgWAj+uMTo1jSODBJfWoyGbZ3Zh6jChtdUmaJ2rKQWc1wb08gykYkxJ6T+cANHkQjl340PY3TOsvjQo3wXjpcZrkXlFy8nSto0QVFm0KxyYMRJVN/kpIJGqu51aftIJO/jaIiG9YLCNErr422GK26eaDvPrOrqQ==">
+    <JsonDataSourceConnection Name="Json example data" ConnectionString="rijcmlq8Sm46cpgh5Eu8vZd/IKSPzLDjp6qi3fjZ9yIwFwuMunBw/S/m2C7nUtYtFY1yVZLLx6iz9ND/95Pn75ncO27bCRX76I9X7s99tTBtlJlXvnBQP9EnKKIG2IkluJ+st74oBFwlzDTmaWljvkLBCyEgZ/Wgrf9s0Z0RpJVx+IIedrTg1aNxbiIamMArbSW4syWowL62z2Ter3SFPYIUwxB2eOzhyPoKxcDt6QNOzdiaFXpDhXgHOIwPdOknKLT4ecvJBD8mwevfPEjsR/PkQk83QBkJYeDek2BPUMiOtEr2uNtN7fWDvXe0x6BWHijqs9+6tEb6lal6UkEl90DXHF20UkBREbST/30dimG0PiCz3kApvqpyapSFdYWT62zsgzjhiMCxmsShkrFlJ+P5QklI2G2tsFQ/rGApZOJnhVguilpPCcTDptSMIbGzK6hVT6jlMeCW2yVTfKfaAj/pdVaG9RlUz+8bquWOQIH75/zlJG2zYWCnytjCHDeWlg2gtnIML72WtX4Emb53t0C1HsqVNZp+uAPV5kJKuqjsprMntF2dx/d4n8ojmDvqPUyASZLpi5v74ekWmQkZMPbYlrIizktm4yml+qZ/DfR7Szs/3uc+nMi9i/ROqOzzujQrj17CVxMoEkPn9NtTL9pbnDt3rQelgqqLxky/ycsQAwa/m5txqxAge4qisUkS7U//idzSCirvnoPTuqRckulwVm5JiHgSZQhnu13YJKW99h70WTaeN0RPFlr/vvvgWAj+uMTo1jSODBJfWoyGbZ3Zh6jChtdUmaJ2rKQWc1wb08gykYkxJ6T+cANHkQjl340PY3TOsvjQo3wXjpcZrkXlFy8nSto0QVFm0KxyYMRJVN/kpIJGqu51aftIJO/jaIiG9YLy+1CZOQTD7o0m3OFiHh0Mw==">
       <JsonTableDataSource Name="JSON" DataType="FastReport.Utils.Json.JsonArray" Enabled="true" TableName="JSON">
         <Column Name="index" DataType="System.Int32"/>
         <Column Name="item" DataType="FastReport.JsonBase">
@@ -20,22 +20,22 @@
       <Column Name="Reference" DataType="System.String"/>
     </BusinessObjectDataSource>
   </Dictionary>
-  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
-    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+  <ReportPage Name="Page1" Guides="9.45,274.05,103.95,311.85,406.35,415.8,510.3,302.4,557.55,705.2,538.65,604.8,699.3" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8" Guides="9.45,37.8">
       <TextObject Name="Text7" Left="9.45" Top="9.45" Width="264.6" Height="28.35" Text="Relatório de produtos" Font="Arial, 16pt"/>
     </ReportTitleBand>
-    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="18.9">
+    <PageHeaderBand Name="PageHeader1" Top="41.8" Width="718.2" Height="18.9" Guides="0,18.9">
       <TextObject Name="Text2" Left="9.45" Width="94.5" Height="18.9" Text="Description" Font="Arial, 10pt"/>
       <TextObject Name="Text6" Left="311.85" Width="94.5" Height="18.9" Text="Price" HorzAlign="Right" Font="Arial, 10pt"/>
       <TextObject Name="Text3" Left="415.8" Width="94.5" Height="18.9" Text="EAN13" HorzAlign="Right" Font="Arial, 9pt"/>
     </PageHeaderBand>
-    <DataBand Name="Data1" Top="64.7" Width="718.2" Height="56.7" DataSource="data">
+    <DataBand Name="Data1" Top="64.7" Width="718.2" Height="56.7" Guides="18.9,37.8,9.449997,56.7" DataSource="data">
       <TextObject Name="Text1" Left="9.45" Top="18.9" Width="292.95" Height="18.9" Text="[data.Description]" Font="Arial, 10pt"/>
       <TextObject Name="Text5" Left="311.85" Top="18.9" Width="94.5" Height="18.9" Text="[data.Price]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" WordWrap="false" Font="Arial, 10pt" Trimming="EllipsisCharacter"/>
       <BarcodeObject Name="Barcode1" Left="557.55" Top="9.45" Width="147.65" Height="47.25" Text="[data.EAN13]" AllowExpressions="true" Barcode="EAN13" Barcode.CalcCheckSum="false"/>
       <TextObject Name="Text9" Left="415.8" Top="18.9" Width="122.85" Height="18.9" Text="[data.EAN13]" HorzAlign="Right" Font="Arial, 9pt"/>
     </DataBand>
-    <PageFooterBand Name="PageFooter1" Top="125.4" Width="718.2" Height="18.9">
+    <PageFooterBand Name="PageFooter1" Top="125.4" Width="718.2" Height="18.9" Guides="0,18.9">
       <TextObject Name="Text8" Left="604.8" Width="94.5" Height="18.9" Text="[PageN]" HorzAlign="Right" Font="Arial, 9pt"/>
     </PageFooterBand>
   </ReportPage>
