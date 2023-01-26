@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="01/26/2023 11:46:53" ReportInfo.Modified="01/26/2023 15:42:54" ReportInfo.CreatorVersion="2023.1.0.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/26/2023 11:46:53" ReportInfo.Modified="01/26/2023 16:23:16" ReportInfo.CreatorVersion="2023.1.0.0">
   <Dictionary>
-    <JsonDataSourceConnection Name="Json example data" ConnectionString="rijcmlq/vtckhUVUPc9dxMQUiM+plH+jVHCMp32FT+SVJl+9N6zxXwg6xHMuZNem8MdEL9Y/Ycw5wXtmmf4PCtDfMqsYL93to6nF5m8HFXVXe+mPJJ9liHsFtBxUTbScQ4HKgPNdRRnQ1Ng69qRPspofYHEMEUwPFNp61B45A17BCf+7LpgpWaPKGKE5R0JJJktSBMa6HVwNo+Btq7ejavQb9CdloFCoHmZ5xm/ZI7fn9HYdydwJg8t2srL5mYZkn/5qwNX8MVlMGvAhYQyxHz2E04/df5SyU0I9jS7P2n3Si28oLV6Sn3Nq0SYpRt8jToIHGs3PDtoScS/MS2Wp4kiQ2bSizuEFO25uqPwuGyD4xEe8D5FJkzBZJFfqPVlabsA1i7feNRYVYuG5WMNS8h/yXFdwNDPi9EqOsDDpb+x5ultEGbKzhe9ad3zLaXNfh+RBLfxRaEB+JQcfylxMmkXDrjPZwUHCyDDOCq3yJ4YLIn3MoMW1qFf3Blzg6lpzDO3Vu+CLh9DQvtVToQPCHQ7Ez5ZuweSVLCSAw2TeV82lHJgnZW/kL/mXHbnYNSV/z5owM2M7yUmwUxCZq4RE//5CiD4yku06BLbWHXr735DYP4wGhoFOrx26tKWTuB83Vx2ABzmaibVpj4BMxxW8Jqbh8MGSmlFhMUnkLl04Oo6kdGUn6vAgDCtMDvYSOQfOnfB8lfFao6/sT/iKG3mAgkOEc0RBv9hgUj+TPOa0/pIntT5lld6RfLlkKH9mlA//U6qevXWZv5Gl34QDDTzPmV+vHtNlQ==">
+    <JsonDataSourceConnection Name="Json example data" ConnectionString="rijcmlq/vtckhUVUPc9dxMQUiM+plH+jVHCMp32FT+SVJl+9N6zxXwg6xHMuZNem8MdEL9Y/Ycw5wXtmmf4PCtDfMqsYL93to6nF5m8HFXVXe+mPJJ9liHsFtBxUTbScQ4HKgPNdRRnQ1Ng69qRPspofYHEMEUwPFNp61B45A17BCf+7LpgpWaPKGKE5R0JJJktSBMa6HVwNo+Btq7ejavQb9CdloFCoHmZ5xm/ZI7fn9HYdydwJg8t2srL5mYZkn/5qwNX8MVlMGvAhYQyxHz2E04/df5SyU0I9jS7P2n3Si28oLV6Sn3Nq0SYpRt8jToIHGs3PDtoScS/MS2Wp4kiQ2bSizuEFO25uqPwuGyD4xEe8D5FJkzBZJFfqPVlabsA1i7feNRYVYuG5WMNS8h/yXFdwNDPi9EqOsDDpb+x5ultEGbKzhe9ad3zLaXNfh+RBLfxRaEB+JQcfylxMmkXDrjPZwUHCyDDOCq3yJ4YLIn3MoMW1qFf3Blzg6lpzDO3Vu+CLh9DQvtVToQPCHQ7Ez5ZuweSVLCSAw2TeV82lHJgnZW/kL/mXHbnYNSV/z5owM2M7yUmwUxCZq4RE//5CiD4yku06BLbWHXr735DYP4wGhoFOrx26tKWTuB83Vx2ABzmaibVpj4BMxxW8Jqbh8MGSmlFhMUnkLl04Oo6kdGUn6vAgDCtMDvYSOQfOnfB8lfFao6/sT/iKG3mAgkOEc0RBv9hgUj+TPOa0/pIntT5lld6RfLlkKH9mlA//U6qevXW3iqUtiyfcsl9DueWWrQE1A==">
       <JsonTableDataSource Name="JSON" DataType="FastReport.Utils.Json.JsonArray" Enabled="true" TableName="JSON">
         <Column Name="index" DataType="System.Int32"/>
         <Column Name="item" DataType="FastReport.JsonBase">
@@ -22,7 +22,7 @@
       <Column Name="Reference" Alias="Installments" DataType="System.String"/>
     </BusinessObjectDataSource>
   </Dictionary>
-  <ReportPage Name="Ebf40" PaperWidth="215.011" PaperHeight="278.9936" LeftMargin="9" TopMargin="12.5" RightMargin="0" BottomMargin="0" Columns.Count="2" Columns.Width="96.012" Columns.Positions="0,99.9998" Guides="0,249.48,124.74,10.86,107.89,125.51,245.8,182.4,183.38,362.88,245.52" Watermark.Font="Arial, 60pt">
+  <ReportPage Name="Ebf40" PaperWidth="215.011" PaperHeight="278.9936" LeftMargin="9" TopMargin="12.5" RightMargin="0" BottomMargin="13" Columns.Count="2" Columns.Width="96.012" Columns.Positions="0,99.9998" Guides="0,249.48,124.74,10.86,107.89,125.51,245.8,182.4,183.38,362.88,245.52" Watermark.Font="Arial, 60pt">
     <DataBand Name="Data1" Width="362.93" Height="47.25" Guides="0,47.25,45.36,9.09,36.27,14.25,31,36.45,45.9,36.8,46.25,1.68,11.13" DataSource="data">
       <ShapeObject Name="Shape1" Width="249.48" Height="47.25" Border.Width="0.25"/>
       <LineObject Name="divisioline" Left="124.74" Height="45.36" Border.Width="0.25" Diagonal="true"/>
