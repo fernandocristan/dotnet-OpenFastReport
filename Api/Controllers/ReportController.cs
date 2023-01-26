@@ -14,6 +14,7 @@ namespace FastReport.Controllers
     public class ReportController : ControllerBase
     {
         private readonly string ebf23ReportPath;
+        private readonly string ebf40LightReportPath;
         private readonly string ebf40ReportPath;
         private readonly string productListReportPath;
         private WebReport webReport;
@@ -32,6 +33,10 @@ namespace FastReport.Controllers
                 webHostEnvironment.ContentRootPath,
                 "wwwroot/reports",
                 "ebf40.frx");
+            ebf40LightReportPath = Path.Combine(
+                webHostEnvironment.ContentRootPath,
+                "wwwroot/reports",
+                "ebf40_light.frx");
             webReport = new();
         }
 
@@ -66,6 +71,19 @@ namespace FastReport.Controllers
         public ActionResult GetEbf23ProductLabels([FromQuery] LabelConfigurationPayload payload)
         {
             using MemoryStream stream = labelPrint(ebf23ReportPath, payload);
+            return File(stream.ToArray(), "application/pdf", "report.pdf");
+        }
+
+        /// <summary>
+        /// Products ebf40 labels report with margins customization and whitout product description
+        /// </summary>
+        /// <param name="payload"> </param>
+        /// <returns> </returns>
+        [HttpGet]
+        [Route("product/label/ebf40/light")]
+        public ActionResult GetEbf40LightProductLabels([FromQuery] LabelConfigurationPayload payload)
+        {
+            using MemoryStream stream = labelPrint(ebf40LightReportPath, payload);
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
