@@ -91,7 +91,7 @@ namespace FastReport.Controllers
         [Route("product/simple")]
         public ActionResult GetProductsListReport()
         {
-            IEnumerable<Product>? products = DataService.GetProducts();
+            IEnumerable<Product>? products = DataService.GetProducts(50);
 
             webReport.Report.Load(productListReportPath);
             webReport.Report.Dictionary.RegisterBusinessObject(
@@ -113,7 +113,9 @@ namespace FastReport.Controllers
         private MemoryStream labelPrint(string reportPath, LabelConfigurationPayload payload)
         {
             //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
-            IEnumerable<Product>? products = DataService.GetProducts(payload.JumpFirstRegisters.GetValueOrDefault());
+            IEnumerable<Product>? products = DataService.GetProducts(
+                payload.Quantity ?? 1,
+                payload.JumpFirstLabelsinPaper.GetValueOrDefault());
 
             webReport.Report.Load(reportPath);
             webReport.Report.Dictionary.RegisterBusinessObject(
