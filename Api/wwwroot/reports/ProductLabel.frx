@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="01/25/2023 17:46:08" ReportInfo.Modified="01/26/2023 09:44:42" ReportInfo.CreatorVersion="2023.1.0.0">
+  <Dictionary>
+    <JsonDataSourceConnection Name="Json example data" ConnectionString="rijcmlq8Sm46cpgh5Eu8vZd/IKSPzLDjp6qi3fjZ9yIwFwuMunBw/S/m2C7nUtYtFY1yVZLLx6iz9ND/95Pn75ncO27bCRX76I9X7s99tTBtlJlXvnBQP9EnKKIG2IkluJ+st74oBFwlzDTmaWljvkLBCyEgZ/Wgrf9s0Z0RpJVx+IIedrTg1aNxbiIamMArbSW4syWowL62z2Ter3SFPYIUwxB2eOzhyPoKxcDt6QNOzdiaFXpDhXgHOIwPdOknKLT4ecvJBD8mwevfPEjsR/PkQk83QBkJYeDek2BPUMiOtEr2uNtN7fWDvXe0x6BWHijqs9+6tEb6lal6UkEl90DXHF20UkBREbST/30dimG0PiCz3kApvqpyapSFdYWT62zsgzjhiMCxmsShkrFlJ+P5QklI2G2tsFQ/rGApZOJnhVguilpPCcTDptSMIbGzK6hVT6jlMeCW2yVTfKfaAj/pdVaG9RlUz+8bquWOQIH75/zlJG2zYWCnytjCHDeWlg2gtnIML72WtX4Emb53t0C1HsqVNZp+uAPV5kJKuqjsprMntF2dx/d4n8ojmDvqPUyASZLpi5v74ekWmQkZMPbYlrIizktm4yml+qZ/DfR7Szs/3uc+nMi9i/ROqOzzujQrj17CVxMoEkPn9NtTL9pbnDt3rQelgqqLxky/ycsQAwa/m5txqxAge4qisUkS7U//idzSCirvnoPTuqRckulwVm5JiHgSZQhnu13YJKW99h70WTaeN0RPFlr/vvvgWAj+uMTo1jSODBJfWoyGbZ3Zh6jChtdUmaJ2rKQWc1wb08gykYkxJ6T+cANHkQjl340PY3TOsvjQo3wXjpcZrkXlFy8nSto0QVFm0KxyYMRJVN/kpIJGqu51aftIJO/jaIiG9YLdf2OMwmvDplWCqx7Y2DE2g==">
+      <JsonTableDataSource Name="JSON" DataType="FastReport.Utils.Json.JsonArray" Enabled="true" TableName="JSON">
+        <Column Name="index" DataType="System.Int32"/>
+        <Column Name="item" DataType="FastReport.JsonBase">
+          <Column Name="description" DataType="System.String"/>
+          <Column Name="eaN13" DataType="System.String"/>
+          <Column Name="price" DataType="System.Double"/>
+          <Column Name="reference" DataType="System.String"/>
+        </Column>
+        <Column Name="array" DataType="FastReport.JsonBase"/>
+      </JsonTableDataSource>
+    </JsonDataSourceConnection>
+    <BusinessObjectDataSource Name="data" ReferenceName="data" DataType="null" Enabled="true">
+      <Column Name="Description" DataType="System.String"/>
+      <Column Name="EAN13" DataType="System.String"/>
+      <Column Name="Price" DataType="System.Decimal"/>
+      <Column Name="Reference" DataType="System.String"/>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="215.01" PaperHeight="278.99" LeftMargin="25.5" TopMargin="14" RightMargin="0" BottomMargin="0" FirstPageSource="15" OtherPagesSource="15" LastPageSource="15" Columns.Count="2" Columns.Width="94.75" Columns.Positions="0,94.75" Guides="106.95,210.9,8.92,95.84,306.25,0,94.5,154.2,105.84,211.68,0.06,306.24" Watermark.Font="Arial, 60pt">
+    <DataBand Name="Data1" Width="358.15" Height="37.8" Guides="0.45,19.35,5.94,31.86,0,37.8,18.9,19.9,31.9,-1.19,36.61" DataSource="data">
+      <TextObject Name="Text1" Left="106.95" Top="0.45" Width="103.95" Height="18.9" Fill.Color="WhiteSmoke" Text="[data.Description]" Font="Arial, 5pt" Trimming="Character"/>
+      <BarcodeObject Name="Barcode1" Left="8.92" Top="5.94" Width="86.92" Height="25.92" Fill.Color="WhiteSmoke" AutoSize="false" Text="[data.EAN13]" NoDataText=" " AllowExpressions="true" Barcode="EAN13" Barcode.CalcCheckSum="false"/>
+      <LineObject Name="Line1" Left="306.25" Height="37.8" Visible="false"/>
+      <TextObject Name="Text2" Top="18.9" Width="94.5" Height="18.9" Font="Arial, 10pt"/>
+      <TextObject Name="Text3" Left="106.95" Top="19.9" Width="47.25" Height="12" Fill.Color="Gainsboro" Text="[data.Price]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" Font="Arial, 5pt, style=Bold"/>
+      <LineObject Name="Line4" Left="105.84" Height="37.8" Visible="false" Border.Color="OrangeRed"/>
+      <LineObject Name="Line5" Left="211.68" Top="-1.19" Height="37.8" Visible="false" Border.Color="OrangeRed"/>
+      <ChildBand Name="Child1" Top="38.87" Width="358.15" Height="11.33" Guides="-2">
+        <LineObject Name="Line3" Left="0.06" Top="-2" Width="306.18" Visible="false" Diagonal="true"/>
+      </ChildBand>
+    </DataBand>
+  </ReportPage>
+</Report>

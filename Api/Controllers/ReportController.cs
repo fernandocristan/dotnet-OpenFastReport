@@ -1,4 +1,5 @@
 using Api.Entities;
+using Api.Payloads;
 using Api.Services;
 
 using FastReport.Export.PdfSimple;
@@ -12,6 +13,7 @@ namespace FastReport.Controllers
     [Route("[controller]")]
     public class ReportController : ControllerBase
     {
+        private readonly string productLabelReportPath;
         private readonly string productListReportPath;
         private WebReport webReport;
 
@@ -21,6 +23,10 @@ namespace FastReport.Controllers
                 webHostEnvironment.ContentRootPath,
                 "wwwroot/reports",
                 "ProductList.frx");
+            productLabelReportPath = Path.Combine(
+                webHostEnvironment.ContentRootPath,
+                "wwwroot/reports",
+                "ProductLabel.frx");
             webReport = new();
         }
 
@@ -46,13 +52,51 @@ namespace FastReport.Controllers
         }
 
         /// <summary>
+        /// Products labels report with margins customization
+        /// </summary>
+        /// <param name="payload"> </param>
+        /// <returns> </returns>
+        [HttpGet]
+        [Route("product/label")]
+        public ActionResult GetProductLabels([FromQuery] LabelConfigurationPayload payload)
+        {
+            //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
+            IEnumerable<Product>? products = DataService.GetProducts(payload.JumpFirstRegisters.GetValueOrDefault());
+
+            webReport.Report.Load(productLabelReportPath);
+            webReport.Report.Dictionary.RegisterBusinessObject(
+                data: products,
+                referenceName: "data",
+                maxNestingLevel: products.Count(),
+                enabled: true);
+            webReport.Report.RegisterData(
+                data: products,
+                name: "data");
+
+            foreach (ReportPage page in webReport.Report.Pages)
+            {
+                page.TopMargin = payload.TopMilimiters ?? page.TopMargin;
+                page.BottomMargin = payload.TopMilimiters ?? page.BottomMargin;
+                page.LeftMargin = payload.LeftMilimiters ?? page.LeftMargin;
+                page.RightMargin = payload.RightMilimiters ?? page.RightMargin;
+            }
+
+            webReport.Report.Prepare();
+
+            using MemoryStream stream = new();
+            webReport.Report.Export(new PDFSimpleExport(), stream);
+            stream.Flush();
+            return File(stream.ToArray(), "application/pdf", "report.pdf");
+        }
+
+        /// <summary>
         /// Simple products report
         /// </summary>
         /// <param name="payload"> </param>
         /// <returns> </returns>
         [HttpGet]
         [Route("product/simple")]
-        public ActionResult GetProductsSimpleReport()
+        public ActionResult GetProductsListReport()
         {
             IEnumerable<Product>? products = DataService.GetProducts();
 

@@ -10,13 +10,6 @@ namespace Api.Services
             {
                 new Product
                 {
-                    Description = null,
-                    EAN13 = null,
-                    Price = null,
-                    Reference = null
-                },
-                new Product
-                {
                     Description = "Óculos Prada Eyewear Collection",
                     EAN13 = "0106947719224",
                     Price = 2356.5m,
@@ -48,10 +41,23 @@ namespace Api.Services
 
         public static IEnumerable<Product> GetProducts(int jumpFirstRecords)
         {
+            if (jumpFirstRecords == 0)
+                return GetProducts();
+
             List<Product> products = GetProducts().ToList();
             for (int i = 0; i < jumpFirstRecords; i++)
             {
-                products.Insert(i, new Product());
+                products.Insert(i, new Product()
+                {
+                    //Description = "",
+                    //EAN13 = "",
+                    //Price = 0,
+                    //Reference = ""
+                    Description = null,
+                    EAN13 = null,
+                    Price = null,
+                    Reference = null
+                });
             }
 
             return products;
