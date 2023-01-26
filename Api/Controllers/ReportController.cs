@@ -13,7 +13,7 @@ namespace FastReport.Controllers
     [Route("[controller]")]
     public class ReportController : ControllerBase
     {
-        private readonly string productLabelReportPath;
+        private readonly string ebf23ReportPath;
         private readonly string productListReportPath;
         private WebReport webReport;
 
@@ -23,10 +23,10 @@ namespace FastReport.Controllers
                 webHostEnvironment.ContentRootPath,
                 "wwwroot/reports",
                 "ProductList.frx");
-            productLabelReportPath = Path.Combine(
+            ebf23ReportPath = Path.Combine(
                 webHostEnvironment.ContentRootPath,
                 "wwwroot/reports",
-                "ProductLabel.frx");
+                "ebf23.frx");
             webReport = new();
         }
 
@@ -63,7 +63,7 @@ namespace FastReport.Controllers
             //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
             IEnumerable<Product>? products = DataService.GetProducts(payload.JumpFirstRegisters.GetValueOrDefault());
 
-            webReport.Report.Load(productLabelReportPath);
+            webReport.Report.Load(ebf23ReportPath);
             webReport.Report.Dictionary.RegisterBusinessObject(
                 data: products,
                 referenceName: "data",
