@@ -14,6 +14,7 @@ namespace FastReport.Controllers
     public class ReportController : ControllerBase
     {
         private readonly string ebf23ReportPath;
+        private readonly string ebf40ReportPath;
         private readonly string productListReportPath;
         private WebReport webReport;
 
@@ -27,6 +28,10 @@ namespace FastReport.Controllers
                 webHostEnvironment.ContentRootPath,
                 "wwwroot/reports",
                 "ebf23.frx");
+            ebf40ReportPath = Path.Combine(
+                webHostEnvironment.ContentRootPath,
+                "wwwroot/reports",
+                "ebf40.frx");
             webReport = new();
         }
 
@@ -52,40 +57,28 @@ namespace FastReport.Controllers
         }
 
         /// <summary>
-        /// Products labels report with margins customization
+        /// Products ebf23 labels report with margins customization
         /// </summary>
         /// <param name="payload"> </param>
         /// <returns> </returns>
         [HttpGet]
-        [Route("product/label")]
-        public ActionResult GetProductLabels([FromQuery] LabelConfigurationPayload payload)
+        [Route("product/label/ebf23")]
+        public ActionResult GetEbf23ProductLabels([FromQuery] LabelConfigurationPayload payload)
         {
-            //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
-            IEnumerable<Product>? products = DataService.GetProducts(payload.JumpFirstRegisters.GetValueOrDefault());
+            using MemoryStream stream = labelPrint(ebf23ReportPath, payload);
+            return File(stream.ToArray(), "application/pdf", "report.pdf");
+        }
 
-            webReport.Report.Load(ebf23ReportPath);
-            webReport.Report.Dictionary.RegisterBusinessObject(
-                data: products,
-                referenceName: "data",
-                maxNestingLevel: products.Count(),
-                enabled: true);
-            webReport.Report.RegisterData(
-                data: products,
-                name: "data");
-
-            foreach (ReportPage page in webReport.Report.Pages)
-            {
-                page.TopMargin = payload.TopMilimiters ?? page.TopMargin;
-                page.BottomMargin = payload.TopMilimiters ?? page.BottomMargin;
-                page.LeftMargin = payload.LeftMilimiters ?? page.LeftMargin;
-                page.RightMargin = payload.RightMilimiters ?? page.RightMargin;
-            }
-
-            webReport.Report.Prepare();
-
-            using MemoryStream stream = new();
-            webReport.Report.Export(new PDFSimpleExport(), stream);
-            stream.Flush();
+        /// <summary>
+        /// Products ebf40 labels report with margins customization
+        /// </summary>
+        /// <param name="payload"> </param>
+        /// <returns> </returns>
+        [HttpGet]
+        [Route("product/label/ebf40")]
+        public ActionResult GetEbf40ProductLabels([FromQuery] LabelConfigurationPayload payload)
+        {
+            using MemoryStream stream = labelPrint(ebf40ReportPath, payload);
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
@@ -115,6 +108,38 @@ namespace FastReport.Controllers
             webReport.Report.Export(new PDFSimpleExport(), stream);
             stream.Flush();
             return File(stream.ToArray(), "application/pdf", "report.pdf");
+        }
+
+        private MemoryStream labelPrint(string reportPath, LabelConfigurationPayload payload)
+        {
+            //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
+            IEnumerable<Product>? products = DataService.GetProducts(payload.JumpFirstRegisters.GetValueOrDefault());
+
+            webReport.Report.Load(reportPath);
+            webReport.Report.Dictionary.RegisterBusinessObject(
+                data: products,
+                referenceName: "data",
+                maxNestingLevel: products.Count(),
+                enabled: true);
+            webReport.Report.RegisterData(
+                data: products,
+                name: "data");
+
+            foreach (ReportPage page in webReport.Report.Pages)
+            {
+                page.TopMargin = payload.TopMilimiters ?? page.TopMargin;
+                page.BottomMargin = payload.TopMilimiters ?? page.BottomMargin;
+                page.LeftMargin = payload.LeftMilimiters ?? page.LeftMargin;
+                page.RightMargin = payload.RightMilimiters ?? page.RightMargin;
+            }
+
+            webReport.Report.Prepare();
+
+            MemoryStream stream = new();
+            webReport.Report.Export(new PDFSimpleExport(), stream);
+            stream.Flush();
+
+            return stream;
         }
     }
 }
