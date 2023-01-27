@@ -2,6 +2,7 @@ using Api.Entities;
 using Api.Payloads;
 using Api.Services;
 
+using FastReport.Barcode;
 using FastReport.Export.PdfSimple;
 using FastReport.Utils;
 using FastReport.Web;
@@ -118,14 +119,15 @@ namespace FastReport.Controllers
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
-        private MemoryStream GetFileStream(string reportPath, LabelConfigurationPayload payload)
+        [HttpGet]
+        [Route("test")]
+        public ActionResult Test()
         {
-            //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
-            IEnumerable<Product>? products = DataService.GetProducts(
-                payload?.Quantity ?? 1,
-                payload?.JumpFirstLabelsinPaper.GetValueOrDefault() ?? 0);
+            IEnumerable<Product>? products = DataService.GetProducts(10);
 
-            webReport.Report.Load(reportPath);
+            webReport.Report.Load(ebf40ReportPath);
+            webReport.Report.Dictionary.DataSources.Clear();
+            webReport.Report.Dictionary.ClearRegisteredData();
             webReport.Report.Dictionary.RegisterBusinessObject(
                 data: products,
                 referenceName: "data",
@@ -135,7 +137,91 @@ namespace FastReport.Controllers
                 data: products,
                 name: "data");
 
-            foreach (ReportPage page in webReport.Report.Pages)
+            AdjustDatasourceLinks(webReport.Report);
+            webReport.Report.Prepare();
+
+            MemoryStream stream = new();
+            webReport.Report.Export(new PDFSimpleExport(), stream);
+            stream.Flush();
+            return File(stream.ToArray(), "application/pdf", "report.pdf");
+        }
+
+        private static string ReplaceTextDatasource(string text)
+        {
+            if (text.StartsWith("[") && text.EndsWith("]"))
+            {
+                //json data source
+                if (text.StartsWith("[testdata.item", StringComparison.OrdinalIgnoreCase))
+                    return text.Replace("[testdata.item", "[data");
+
+                //simple business object
+                if (text.StartsWith("[testdata", StringComparison.OrdinalIgnoreCase))
+                    return text.Replace("[testdata", "[data");
+            }
+            return text;
+        }
+
+        private MemoryStream GetFileStream(string reportPath, LabelConfigurationPayload payload)
+        {
+            //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
+            IEnumerable<Product>? products = DataService.GetProducts(
+                payload?.Quantity ?? 1,
+                payload?.JumpFirstLabelsinPaper.GetValueOrDefault() ?? 0);
+
+            webReport.Report.Load(reportPath);
+            webReport.Report.Dictionary.DataSources.Clear();
+            webReport.Report.Dictionary.ClearRegisteredData();
+            webReport.Report.Dictionary.RegisterBusinessObject(
+                data: products,
+                referenceName: "data",
+                maxNestingLevel: products.Count(),
+                enabled: true);
+            webReport.Report.RegisterData(
+                data: products,
+                name: "data");
+            AdjustDatasourceLinks(webReport.Report);
+            AdjustMargins(webReport.Report.Pages, payload);
+            webReport.Report.Prepare();
+
+            MemoryStream stream = new();
+            webReport.Report.Export(new PDFSimpleExport(), stream);
+            stream.Flush();
+
+            return stream;
+        }
+
+        private static void AdjustDatasourceLinks(Report report)
+        {
+            foreach (object @object in report.AllObjects)
+            {
+                if (@object is not ReportComponentBase)
+                    continue;
+
+                ReportComponentBase component = @object as ReportComponentBase;
+                if (component.Name.StartsWith("_"))
+                    component.Visible = false;
+
+                if (component is DataBand)
+                {
+                    DataBand databand = component as DataBand;
+                    databand.DataSource = report.Dictionary.DataSources[0];
+                }
+                else if (component is TextObject)
+                {
+                    TextObject textObj = component as TextObject;
+                    textObj.Text = ReplaceTextDatasource(textObj.Text);
+                }
+                else if (component is BarcodeObject)
+                {
+                    BarcodeObject barcodeObj = component as BarcodeObject;
+                    barcodeObj.Text = ReplaceTextDatasource(barcodeObj.Text);
+                }
+            }
+        }
+
+        private static void AdjustMargins(PageCollection pages, LabelConfigurationPayload? payload)
+        {
+            foreach (ReportPage page in pages)
             {
                 page.TopMargin = payload?.TopMilimiters ?? page.TopMargin;
                 page.BottomMargin = payload?.TopMilimiters ?? page.BottomMargin;
@@ -144,14 +230,6 @@ namespace FastReport.Controllers
 
                 //UnitsConverter.ConvertPaperSize("Letter", page); StimulSoft
             }
-
-            webReport.Report.Prepare();
-
-            MemoryStream stream = new();
-            webReport.Report.Export(new PDFSimpleExport(), stream);
-            stream.Flush();
-
-            return stream;
         }
     }
 }
