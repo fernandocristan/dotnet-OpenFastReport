@@ -119,31 +119,46 @@ namespace FastReport.Controllers
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
-        [HttpGet]
-        [Route("test")]
-        public ActionResult Test()
+        private static void AdjustDatasourceLinks(Report report)
         {
-            IEnumerable<Product>? products = DataService.GetProducts(10);
+            foreach (object @object in report.AllObjects)
+            {
+                if (@object is not ReportComponentBase)
+                    continue;
 
-            webReport.Report.Load(ebf40ReportPath);
-            webReport.Report.Dictionary.DataSources.Clear();
-            webReport.Report.Dictionary.ClearRegisteredData();
-            webReport.Report.Dictionary.RegisterBusinessObject(
-                data: products,
-                referenceName: "data",
-                maxNestingLevel: products.Count(),
-                enabled: true);
-            webReport.Report.RegisterData(
-                data: products,
-                name: "data");
+                ReportComponentBase component = @object as ReportComponentBase;
+                if (component.Name.StartsWith("_"))
+                    component.Visible = false;
 
-            AdjustDatasourceLinks(webReport.Report);
-            webReport.Report.Prepare();
+                if (component is DataBand)
+                {
+                    DataBand databand = component as DataBand;
+                    databand.DataSource = report.Dictionary.DataSources[0];
+                }
+                else if (component is TextObject)
+                {
+                    TextObject textObj = component as TextObject;
+                    textObj.Text = ReplaceTextDatasource(textObj.Text);
+                }
+                else if (component is BarcodeObject)
+                {
+                    BarcodeObject barcodeObj = component as BarcodeObject;
+                    barcodeObj.Text = ReplaceTextDatasource(barcodeObj.Text);
+                }
+            }
+        }
 
-            MemoryStream stream = new();
-            webReport.Report.Export(new PDFSimpleExport(), stream);
-            stream.Flush();
-            return File(stream.ToArray(), "application/pdf", "report.pdf");
+        private static void AdjustMargins(PageCollection pages, LabelConfigurationPayload? payload)
+        {
+            foreach (ReportPage page in pages)
+            {
+                page.TopMargin = payload?.TopMilimiters ?? page.TopMargin;
+                page.BottomMargin = payload?.TopMilimiters ?? page.BottomMargin;
+                page.LeftMargin = payload?.LeftMilimiters ?? page.LeftMargin;
+                page.RightMargin = payload?.RightMilimiters ?? page.RightMargin;
+
+                //UnitsConverter.ConvertPaperSize("Letter", page); StimulSoft
+            }
         }
 
         private static string ReplaceTextDatasource(string text)
@@ -188,48 +203,6 @@ namespace FastReport.Controllers
             stream.Flush();
 
             return stream;
-        }
-
-        private static void AdjustDatasourceLinks(Report report)
-        {
-            foreach (object @object in report.AllObjects)
-            {
-                if (@object is not ReportComponentBase)
-                    continue;
-
-                ReportComponentBase component = @object as ReportComponentBase;
-                if (component.Name.StartsWith("_"))
-                    component.Visible = false;
-
-                if (component is DataBand)
-                {
-                    DataBand databand = component as DataBand;
-                    databand.DataSource = report.Dictionary.DataSources[0];
-                }
-                else if (component is TextObject)
-                {
-                    TextObject textObj = component as TextObject;
-                    textObj.Text = ReplaceTextDatasource(textObj.Text);
-                }
-                else if (component is BarcodeObject)
-                {
-                    BarcodeObject barcodeObj = component as BarcodeObject;
-                    barcodeObj.Text = ReplaceTextDatasource(barcodeObj.Text);
-                }
-            }
-        }
-
-        private static void AdjustMargins(PageCollection pages, LabelConfigurationPayload? payload)
-        {
-            foreach (ReportPage page in pages)
-            {
-                page.TopMargin = payload?.TopMilimiters ?? page.TopMargin;
-                page.BottomMargin = payload?.TopMilimiters ?? page.BottomMargin;
-                page.LeftMargin = payload?.LeftMilimiters ?? page.LeftMargin;
-                page.RightMargin = payload?.RightMilimiters ?? page.RightMargin;
-
-                //UnitsConverter.ConvertPaperSize("Letter", page); StimulSoft
-            }
         }
     }
 }
