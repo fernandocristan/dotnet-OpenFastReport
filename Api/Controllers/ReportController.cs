@@ -72,7 +72,7 @@ namespace FastReport.Controllers
         public ActionResult GetEbf23ProductLabels([FromQuery] LabelConfigurationPayload payload)
         {
             Config.ReportSettings.DefaultPaperSize = DefaultPaperSize.Letter;
-            using MemoryStream stream = labelPrint(ebf23ReportPath, payload);
+            using MemoryStream stream = GetFileStream(ebf23ReportPath, payload);
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
@@ -86,7 +86,7 @@ namespace FastReport.Controllers
         public ActionResult GetEbf40LightProductLabels([FromQuery] LabelConfigurationPayload payload)
         {
             Config.ReportSettings.DefaultPaperSize = DefaultPaperSize.Letter;
-            using MemoryStream stream = labelPrint(ebf40LightReportPath, payload);
+            using MemoryStream stream = GetFileStream(ebf40LightReportPath, payload);
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
@@ -100,7 +100,7 @@ namespace FastReport.Controllers
         public ActionResult GetEbf40ProductLabels([FromQuery] LabelConfigurationPayload payload)
         {
             Config.ReportSettings.DefaultPaperSize = DefaultPaperSize.Letter;
-            using MemoryStream stream = labelPrint(ebf40ReportPath, payload);
+            using MemoryStream stream = GetFileStream(ebf40ReportPath, payload);
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
@@ -114,11 +114,11 @@ namespace FastReport.Controllers
         public ActionResult GetProductsListReport()
         {
             Config.ReportSettings.DefaultPaperSize = DefaultPaperSize.A4;
-            using MemoryStream stream = labelPrint(productListReportPath, new LabelConfigurationPayload { Quantity = 50 });
+            using MemoryStream stream = GetFileStream(productListReportPath, new LabelConfigurationPayload { Quantity = 50 });
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
-        private MemoryStream labelPrint(string reportPath, LabelConfigurationPayload payload)
+        private MemoryStream GetFileStream(string reportPath, LabelConfigurationPayload payload)
         {
             //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
             IEnumerable<Product>? products = DataService.GetProducts(
