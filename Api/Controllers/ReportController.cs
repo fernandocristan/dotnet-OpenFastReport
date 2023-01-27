@@ -3,6 +3,7 @@ using Api.Payloads;
 using Api.Services;
 
 using FastReport.Export.PdfSimple;
+using FastReport.Utils;
 using FastReport.Web;
 
 using Microsoft.AspNetCore.Mvc;
@@ -70,6 +71,7 @@ namespace FastReport.Controllers
         [Route("product/label/ebf23")]
         public ActionResult GetEbf23ProductLabels([FromQuery] LabelConfigurationPayload payload)
         {
+            Config.ReportSettings.DefaultPaperSize = DefaultPaperSize.Letter;
             using MemoryStream stream = labelPrint(ebf23ReportPath, payload);
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
@@ -83,6 +85,7 @@ namespace FastReport.Controllers
         [Route("product/label/ebf40/light")]
         public ActionResult GetEbf40LightProductLabels([FromQuery] LabelConfigurationPayload payload)
         {
+            Config.ReportSettings.DefaultPaperSize = DefaultPaperSize.Letter;
             using MemoryStream stream = labelPrint(ebf40LightReportPath, payload);
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
@@ -96,6 +99,7 @@ namespace FastReport.Controllers
         [Route("product/label/ebf40")]
         public ActionResult GetEbf40ProductLabels([FromQuery] LabelConfigurationPayload payload)
         {
+            Config.ReportSettings.DefaultPaperSize = DefaultPaperSize.Letter;
             using MemoryStream stream = labelPrint(ebf40ReportPath, payload);
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
@@ -109,22 +113,8 @@ namespace FastReport.Controllers
         [Route("product/simple")]
         public ActionResult GetProductsListReport()
         {
-            IEnumerable<Product>? products = DataService.GetProducts(50);
-
-            webReport.Report.Load(productListReportPath);
-            webReport.Report.Dictionary.RegisterBusinessObject(
-                data: products,
-                referenceName: "data",
-                maxNestingLevel: products.Count(),
-                enabled: true);
-            webReport.Report.RegisterData(
-                data: products,
-                name: "data");
-            webReport.Report.Prepare();
-
-            using MemoryStream stream = new();
-            webReport.Report.Export(new PDFSimpleExport(), stream);
-            stream.Flush();
+            Config.ReportSettings.DefaultPaperSize = DefaultPaperSize.A4;
+            using MemoryStream stream = labelPrint(productListReportPath, new LabelConfigurationPayload { Quantity = 50 });
             return File(stream.ToArray(), "application/pdf", "report.pdf");
         }
 
@@ -132,8 +122,8 @@ namespace FastReport.Controllers
         {
             //https://fastreports.github.io/FastReport.Documentation/ReferenceReportObject.html
             IEnumerable<Product>? products = DataService.GetProducts(
-                payload.Quantity ?? 1,
-                payload.JumpFirstLabelsinPaper.GetValueOrDefault());
+                payload?.Quantity ?? 1,
+                payload?.JumpFirstLabelsinPaper.GetValueOrDefault() ?? 0);
 
             webReport.Report.Load(reportPath);
             webReport.Report.Dictionary.RegisterBusinessObject(
@@ -151,6 +141,8 @@ namespace FastReport.Controllers
                 page.BottomMargin = payload.TopMilimiters ?? page.BottomMargin;
                 page.LeftMargin = payload.LeftMilimiters ?? page.LeftMargin;
                 page.RightMargin = payload.RightMilimiters ?? page.RightMargin;
+
+                //UnitsConverter.ConvertPaperSize("Letter", page); StimulSoft
             }
 
             webReport.Report.Prepare();
