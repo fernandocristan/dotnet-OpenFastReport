@@ -137,10 +137,10 @@ namespace FastReport.Controllers
 
             foreach (ReportPage page in webReport.Report.Pages)
             {
-                page.TopMargin = payload.TopMilimiters ?? page.TopMargin;
-                page.BottomMargin = payload.TopMilimiters ?? page.BottomMargin;
-                page.LeftMargin = payload.LeftMilimiters ?? page.LeftMargin;
-                page.RightMargin = payload.RightMilimiters ?? page.RightMargin;
+                page.TopMargin = payload?.TopMilimiters ?? page.TopMargin;
+                page.BottomMargin = payload?.TopMilimiters ?? page.BottomMargin;
+                page.LeftMargin = payload?.LeftMilimiters ?? page.LeftMargin;
+                page.RightMargin = payload?.RightMilimiters ?? page.RightMargin;
 
                 //UnitsConverter.ConvertPaperSize("Letter", page); StimulSoft
             }
